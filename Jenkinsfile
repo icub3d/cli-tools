@@ -13,9 +13,9 @@ pipeline {
     stage ('build binaries') {
       parallel {
         stage('go-binaries') {
-          git branch: 'main', url: 'https://git.marsh.gg/marshians/cli-tools'
           container('go') {
             steps {
+              git branch: 'main', url: 'https://git.marsh.gg/marshians/cli-tools'
               sh 'make go-tools'
             }
           }
