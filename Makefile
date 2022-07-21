@@ -17,7 +17,7 @@ go-tools: update
 	ls -alh /go/bin /go/bin/linux_arm
 
 rust-tools: update
-	apt-get install -y ggc-arm-linux-gnueabihf
+	apt-get install -y gcc-arm-linux-gnueabihf
 	rustup target add armv7-unknown-linux-gnueabihf && \
 	mkdir -p /.cargo && \
 	echo '[target.armv7-unknown-linux-gnueabihf]\nlinker = "arm-linux-gnueabihf-gcc"' >/.cargo/config.toml
