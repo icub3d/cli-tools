@@ -7,8 +7,13 @@ update:
 	apt-get install -y zip
 
 go-tools: update
-	GOARCH=arm GOARM=7 go install $(shell cat go-binaries-base)
-	go install $(shell cat go-binaries-base go-binaries-dev)
+	cat go-binaries-base | while read PACKAGE; do \
+		GOARCH=arm GOARM=7 go install $$PACKAGE ; \
+	done
+	
+	cat go-binaries-base go-binaries-dev | while read PACKAGE; do \
+		go install $$PACKAGE ; \
+	done
 	ls -alh /go/bin /go/bin/linux_arm
 
 rust-tools: update
