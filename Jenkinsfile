@@ -3,23 +3,24 @@ pipeline {
     kubernetes {
       containerTemplate {
         name 'go'
-        image 'golang:latest'
-        command 'sleep'
-        args 'infinity'
+          image 'golang:latest'
+          command 'sleep'
+          args 'infinity'
       }
     }
   }
   stages {
     stage ('build binaries') {
-      stage('go-binaries') {
-        container('go') {
+      parallel {
+        stage('go-binaries') {
           steps {
-            git branch: 'main', url: 'https://git.marsh.gg/marshians/cli-tools'
-            sh 'make go-tools'
+            container('go') {
+              git branch: 'main', url: 'https://git.marsh.gg/marshians/cli-tools'
+                sh 'make go-tools'
+            }
           }
         }
       }
     }
   }
 }
-// vim:ft=groovy
