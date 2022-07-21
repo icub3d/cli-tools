@@ -16,6 +16,6 @@ rust-tools: update
 	rustup target add armv7-unknown-linux-gnueabihf && \
 	mkdir -p /.cargo && \
 	echo '[target.armv7-unknown-linux-gnueabihf]\nlinker = "arm-linux-gnueabihf-gcc"' >/.cargo/config.toml
-  cargo install --root /tmp/x86_64 $(shell cat rust-binaries-base rust-binaries-dev)
+	cargo install --root /tmp/x86_64 $(shell cat rust-binaries-base rust-binaries-dev)
 	cargo install --root /tmp/armv7l --target=armv7-unknown-linux-gnueabihf $(shell cat rust-binaries-base)
-  ls -alh /tmp/x864_64/bin/ /tmp/armv7l/bin/
+	ls -alh /tmp/x864_64/bin/ /tmp/armv7l/bin/
