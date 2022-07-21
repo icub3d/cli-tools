@@ -7,13 +7,15 @@ update:
 	apt-get install -y zip
 
 go-tools: update
-	go install github.com/mikefarah/yq/v4@latest
-	go install github.com/go-delve/delve/cmd/dlv@latest
-	go install golang.org/x/tools/gopls@latest
-	go install github.com/nsf/gocode@latest
-	go install github.com/rogpeppe/godef@latest
-	go install golang.org/x/tools/cmd/godoc@latest
-	go install golang.org/x/tools/cmd/goimports@latest
-	go install github.com/cweill/gotests/gotests@latest
-	go install github.com/prasmussen/gdrive@latest
-	GOARCH=arm GOARM=7 go install github.com/mikefarah/yq/v4@latest
+	GOARCH=arm GOARM=7 go install $(shell cat go-binaries-base)
+	go install $(shell cat go-binaries-base go-binaries-dev)
+	ls -alh /go/bin /go/bin/linux_arm
+
+rust-tools: update
+	apt-get install -y ggc-arm-linux-gnueabihf
+	rustup target add armv7-unknown-linux-gnueabihf && \
+	mkdir -p /.cargo && \
+	echo '[target.armv7-unknown-linux-gnueabihf]\nlinker = "arm-linux-gnueabihf-gcc"' >/.cargo/config.toml
+  cargo install --root /tmp/x86_64 $(shell cat rust-binaries-base rust-binaries-dev)
+	cargo install --root /tmp/armv7l --target=armv7-unknown-linux-gnueabihf $(shell cat rust-binaries-base)
+  ls -alh /tmp/x864_64/bin/ /tmp/armv7l/bin/
