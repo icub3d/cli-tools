@@ -1,6 +1,8 @@
 pipeline {
   triggers {
-    cron('H 4 * * *')
+    cron('''# For our local time
+           |TZ=America/Denver
+           |H 4 * * *'''.stripMargin())
   }
   agent {
     kubernetes {
@@ -31,7 +33,6 @@ pipeline {
         container('go') {
           sh 'make zip-files'
         }
-        archiveArtifacts artifacts: '${WORKSPACE}/dist/*.zip', followSymlinks: false
       }
     }
   }
