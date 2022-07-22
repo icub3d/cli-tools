@@ -38,5 +38,5 @@ zip-files:
 	zip -j ${WORKSPACE}/dist/cli-tools.armv7l.zip ${WORKSPACE}/dist/cli-tools/armv7l/*
 
 send-to-samba:
-	smbclient -U $$SAMBA_USERNAME --password $$SAMBA_PASSWORD --directory files -c 'put dist/cli-tools.x86_64.zip cli-tools.x86_64.zip' //srv2/documents
-	smbclient -U $$SAMBA_USERNAME --password $$SAMBA_PASSWORD --directory files -c 'put dist/cli-tools.armv7l.zip cli-tools.armv7l.zip' //srv2/documents
+	smbclient -U ${SAMBA_USERNAME} --password ${SAMBA_PASSWORD} --directory files -c 'put dist/cli-tools.x86_64.zip cli-tools.x86_64.zip' //srv2/documents
+	smbclient -U ${SAMBA_USERNAME} --password ${SAMBA_PASSWORD} --directory files -c 'put dist/cli-tools.armv7l.zip cli-tools.armv7l.zip' //srv2/documents
