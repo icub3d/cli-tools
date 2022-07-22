@@ -1,6 +1,6 @@
 pipeline {
   triggers {
-    cron('TZ=America/Denver\nH 4 * * *')
+    cron('TZ=America/Denver\nH 4 * * 0')
   }
   agent {
     kubernetes {

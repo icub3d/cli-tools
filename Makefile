@@ -33,10 +33,18 @@ copy-rust-tools:
 	cp /tmp/x86_64/bin/* ${WORKSPACE}/dist/cli-tools/x86_64
 	cp /tmp/armv7l/bin/* ${WORKSPACE}/dist/cli-tools/armv7l
 
-zip-files:
+spark:
+	curl https://raw.githubusercontent.com/holman/spark/master/spark -o spark
+	chmod +x spark
+	cp spark ${WORKSPACE}/dist/cli-tools/x86_64/spark
+	cp spark ${WORKSPACE}/dist/cli-tools/armv7l/spark
+	rm spark
+
+zip-files: spark
 	zip -j ${WORKSPACE}/dist/cli-tools.x86_64.zip ${WORKSPACE}/dist/cli-tools/x86_64/*
 	zip -j ${WORKSPACE}/dist/cli-tools.armv7l.zip ${WORKSPACE}/dist/cli-tools/armv7l/*
 
 send-to-samba:
-	smbclient -U ${SAMBA_USERNAME} --password ${SAMBA_PASSWORD} --directory files -c 'put dist/cli-tools.x86_64.zip cli-tools.x86_64.zip' //srv2/documents
-	smbclient -U ${SAMBA_USERNAME} --password ${SAMBA_PASSWORD} --directory files -c 'put dist/cli-tools.armv7l.zip cli-tools.armv7l.zip' //srv2/documents
+	echo "username=${SAMBA_USERNAME}\npassword=${SAMBA_PASSWORD}\n" >/smbclient.conf
+	smbclient -A /smbclient.conf --directory files -c 'put dist/cli-tools.x86_64.zip cli-tools.x86_64.zip' //srv2/documents
+	smbclient -A /smbclient.conf --directory files -c 'put dist/cli-tools.armv7l.zip cli-tools.armv7l.zip' //srv2/documents
