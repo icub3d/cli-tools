@@ -4,7 +4,7 @@ validate-jenkins:
 update:
 	apt-get update -y
 	apt-get upgrade -y
-	apt-get install -y zip
+	apt-get install -y zip smbclient
 
 go-tools: update
 	cat go-binaries-base | while read PACKAGE; do \
