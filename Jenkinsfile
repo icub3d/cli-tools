@@ -1,18 +1,10 @@
 pipeline {
+  triggers {
+    cron('H 4 * * *')
+  }
   agent {
     kubernetes {
-      containerTemplate {
-        name 'go'
-          image 'golang:latest'
-          command 'sleep'
-          args 'infinity'
-      }
-      containerTemplate {
-        name 'rust'
-          image 'rust:latest'
-          command 'sleep'
-          args 'infinity'
-      }
+      yamlFile 'build-pods.yaml'
     }
   }
   stages {
