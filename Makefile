@@ -7,7 +7,6 @@ update:
 	apt-get install -y zip
 
 go-tools: update
-	ls ${WORKSPACE}
 	cat go-binaries-base | while read PACKAGE; do \
 		GOARCH=arm GOARM=7 go install $$PACKAGE ; \
 	done
@@ -16,8 +15,12 @@ go-tools: update
 	done
 	ls -alh /go/bin /go/bin/linux_arm
 
+copy-go-tools:
+	mkdir -p ${WORKSPACE}/dist/cli-tools/x86_64 ${WORKSPACE}/dist/cli-tools/armv7l
+	cp /go/bin/* ${WORKSPACE}/dist/cli-tools/x86_64
+	cp /go/bin/linux_arm/* ${WORKSPACE}/dist/cli-tools/armv7l
+
 rust-tools: update
-	ls ${WORKSPACE}
 	apt-get install -y gcc-arm-linux-gnueabihf
 	rustup target add armv7-unknown-linux-gnueabihf && \
 	mkdir -p /.cargo && \
@@ -26,3 +29,11 @@ rust-tools: update
 	cargo install --root /tmp/armv7l --target=armv7-unknown-linux-gnueabihf $(shell cat rust-binaries-base)
 	ls -alh /tmp/x86_64/bin/ /tmp/armv7l/bin/
 	
+copy-rust-tools:
+	mkdir -p ${WORKSPACE}/dist/cli-tools/x86_64 ${WORKSPACE}/dist/cli-tools/armv7l
+	cp /tmp/x86_64/bin/* ${WORKSPACE}/dist/cli-tools/x86_64
+	cp /tmp/armv7l/bin/* ${WORKSPACE}/dist/cli-tools/armv7l
+
+zip-files:
+	zip -j ${WORKSPACE}/dist/cli-tools.x86_64.zip ${WORKSPACE}/dist/cli-tools/x86_64/*
+	zip -j ${WORKSPACE}/dist/cli-tools.armv7l.zip ${WORKSPACE}/dist/cli-tools/armv7l/*
