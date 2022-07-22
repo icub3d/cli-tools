@@ -1,8 +1,6 @@
 pipeline {
   triggers {
-    cron('''# For our local time
-           |TZ=America/Denver
-           |H 4 * * *'''.stripMargin())
+    cron('TZ=America/Denver\nH 4 * * *')
   }
   agent {
     kubernetes {
