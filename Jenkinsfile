@@ -29,7 +29,9 @@ pipeline {
     stage ('zip binaries') {
       steps {
         container('go') {
-          sh 'make zip-files'
+          withCredentials([usernamePassword(credentialsId: 'srv2-samba', usernameVariable: 'SAMBA_USERNAME', passwordVariable: 'SAMBA_PASSWORD')]) {
+            sh 'make zip-files send-to-samba'
+          }
         }
       }
     }

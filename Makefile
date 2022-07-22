@@ -13,7 +13,6 @@ go-tools: update
 	cat go-binaries-base go-binaries-dev | while read PACKAGE; do \
 		go install $$PACKAGE ; \
 	done
-	ls -alh /go/bin /go/bin/linux_arm
 
 copy-go-tools:
 	mkdir -p ${WORKSPACE}/dist/cli-tools/x86_64 ${WORKSPACE}/dist/cli-tools/armv7l
@@ -28,7 +27,6 @@ rust-tools: update
 	echo '[target.armv7-unknown-linux-gnueabihf]\nlinker = "arm-linux-gnueabihf-gcc"' >/.cargo/config.toml
 	cargo install --root /tmp/x86_64 $(shell cat rust-binaries-base rust-binaries-dev)
 	cargo install --root /tmp/armv7l --target=armv7-unknown-linux-gnueabihf $(shell cat rust-binaries-base)
-	ls -alh /tmp/x86_64/bin/ /tmp/armv7l/bin/
 	
 copy-rust-tools:
 	mkdir -p ${WORKSPACE}/dist/cli-tools/x86_64 ${WORKSPACE}/dist/cli-tools/armv7l
@@ -38,3 +36,7 @@ copy-rust-tools:
 zip-files:
 	zip -j ${WORKSPACE}/dist/cli-tools.x86_64.zip ${WORKSPACE}/dist/cli-tools/x86_64/*
 	zip -j ${WORKSPACE}/dist/cli-tools.armv7l.zip ${WORKSPACE}/dist/cli-tools/armv7l/*
+
+send-to-samba:
+	smbclient -U $$SAMBA_USERNAME --password $$SAMBA_PASSWORD --directory files -c 'put dist/cli-tools.x86_64.zip cli-tools.x86_64.zip' //srv2/documents
+	smbclient -U $$SAMBA_USERNAME --password $$SAMBA_PASSWORD --directory files -c 'put dist/cli-tools.armv7l.zip cli-tools.armv7l.zip' //srv2/documents
