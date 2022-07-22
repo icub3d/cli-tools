@@ -17,8 +17,9 @@ go-tools: update
 
 copy-go-tools:
 	mkdir -p ${WORKSPACE}/dist/cli-tools/x86_64 ${WORKSPACE}/dist/cli-tools/armv7l
-	cp /go/bin/* ${WORKSPACE}/dist/cli-tools/x86_64
 	cp /go/bin/linux_arm/* ${WORKSPACE}/dist/cli-tools/armv7l
+	rm -rf /go/bin/linux_arm
+	cp /go/bin/* ${WORKSPACE}/dist/cli-tools/x86_64
 
 rust-tools: update
 	apt-get install -y gcc-arm-linux-gnueabihf
