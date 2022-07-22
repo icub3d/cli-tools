@@ -13,16 +13,14 @@ pipeline {
         stage('go-binaries') {
           steps {
             container('go') {
-              sh 'make go-tools'
-              sh 'make copy-go-tools'
+              sh 'make go-tools copy-go-tools'
             }
           }
         }
         stage('rust-binaries') {
           steps {
             container('rust') {
-              sh 'make rust-tools'
-              sh 'make copy-rust-tools'
+              sh 'make rust-tools copy-rust-tools'
             }
           }
         }
