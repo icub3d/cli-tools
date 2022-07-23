@@ -13,8 +13,8 @@ go-tools: update docker-credential-helpers
 
 docker-credential-helpers:
 	git clone https://github.com/docker/docker-credential-helpers
-	cd docker-credentials-helpers && make secretservice && cp bin/docker-credential-secretservice /go/bin/
-	cd docker-credentials-helpers && GOARM=7 && GOARCH=arm make secretservice && cp bin/docker-credential-secretservice /go/bin/linux_arm/
+	cd docker-credential-helpers && make secretservice && cp bin/docker-credential-secretservice /go/bin/
+	cd docker-credential-helpers && GOARM=7 && GOARCH=arm make secretservice && cp bin/docker-credential-secretservice /go/bin/linux_arm/
 
 copy-go-tools:
 	mkdir -p ${WORKSPACE}/dist/cli-tools/x86_64 ${WORKSPACE}/dist/cli-tools/armv7l
