@@ -1,6 +1,3 @@
-validate-jenkins:
-	@curl -sX POST -L --user icub3d:$(shell cat ~/Documents/ssssh/jenkins.marsh.gg-api-token) -F 'jenkinsfile=<Jenkinsfile' https://jenkins.marsh.gg/pipeline-model-converter/validate
-
 update:
 	apt-get update -y
 	apt-get upgrade -y
