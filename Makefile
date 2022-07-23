@@ -1,7 +1,7 @@
 update:
 	apt-get update -y
 	apt-get upgrade -y
-	apt-get install -y zip smbclient
+	apt-get install -y zip smbclient libsecret-1-dev
 
 go-tools: update docker-credential-helpers
 	cat go-binaries-base | while read PACKAGE; do \
@@ -14,7 +14,6 @@ go-tools: update docker-credential-helpers
 docker-credential-helpers:
 	git clone https://github.com/docker/docker-credential-helpers
 	cd docker-credential-helpers && make secretservice && cp bin/docker-credential-secretservice /go/bin/
-	cd docker-credential-helpers && GOARM=7 && GOARCH=arm make secretservice && cp bin/docker-credential-secretservice /go/bin/linux_arm/
 
 copy-go-tools:
 	mkdir -p ${WORKSPACE}/dist/cli-tools/x86_64 ${WORKSPACE}/dist/cli-tools/armv7l
