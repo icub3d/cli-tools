@@ -3,7 +3,7 @@ update:
 	apt-get upgrade -y
 	apt-get install -y zip smbclient
 
-go-tools: update docker-credentials-helpers
+go-tools: update docker-credential-helpers
 	cat go-binaries-base | while read PACKAGE; do \
 		GOARCH=arm GOARM=7 go install $$PACKAGE ; \
 	done
@@ -11,7 +11,7 @@ go-tools: update docker-credentials-helpers
 		go install $$PACKAGE ; \
 	done
 
-docker-credentials-helper:
+docker-credential-helpers:
 	git clone https://github.com/docker/docker-credential-helpers
 	cd docker-credentials-helpers && make secretservice && cp bin/docker-credential-secretservice /go/bin/
 	cd docker-credentials-helpers && GOARM=7 && GOARCH=arm make secretservice && cp bin/docker-credential-secretservice /go/bin/linux_arm/
