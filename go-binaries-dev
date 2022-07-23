@@ -1,3 +1,4 @@
+code.gitea.io/tea@latest
 github.com/go-delve/delve/cmd/dlv@latest
 golang.org/x/tools/gopls@latest
 github.com/nsf/gocode@latest
