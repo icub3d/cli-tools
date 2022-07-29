@@ -29,8 +29,8 @@ pipeline {
     stage ('zip binaries') {
       steps {
         container('go') {
-          withCredentials([usernamePassword(credentialsId: 'srv2-samba', usernameVariable: 'SAMBA_USERNAME', passwordVariable: 'SAMBA_PASSWORD')]) {
-            sh 'make zip-files send-to-samba'
+          withCredentials([usernamePassword(credentialsId: 'wasabi-credentials', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+            sh 'make zip-files send-to-wasabi'
           }
         }
       }

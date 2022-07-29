@@ -49,3 +49,11 @@ send-to-samba:
 	echo "username=${SAMBA_USERNAME}\npassword=${SAMBA_PASSWORD}\n" >/smbclient.conf
 	smbclient -A /smbclient.conf --directory files -c 'put dist/cli-tools.x86_64.zip cli-tools.x86_64.zip' //srv2/documents
 	smbclient -A /smbclient.conf --directory files -c 'put dist/cli-tools.armv7l.zip cli-tools.armv7l.zip' //srv2/documents
+
+send-to-wasabi:
+	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+	unzip awscliv2.zip
+	./aws/install
+	aws s3 --endpoint-url=https://s3.us-west-1.wasabisys.com/ cp ${WORKSPACE}/dist/cli-toos.x86_64.zip s3://marshians-files/
+	aws s3 --endpoint-url=https://s3.us-west-1.wasabisys.com/ cp ${WORKSPACE}/dist/cli-toos.armv7l.zip s3://marshians-files/
+
