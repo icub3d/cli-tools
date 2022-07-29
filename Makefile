@@ -54,6 +54,6 @@ send-to-wasabi:
 	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 	unzip awscliv2.zip
 	./aws/install
-	aws s3 --endpoint-url=https://s3.us-west-1.wasabisys.com/ cp ${WORKSPACE}/dist/cli-toos.x86_64.zip s3://marshians-files/
-	aws s3 --endpoint-url=https://s3.us-west-1.wasabisys.com/ cp ${WORKSPACE}/dist/cli-toos.armv7l.zip s3://marshians-files/
+	aws s3 --endpoint-url=https://s3.us-west-1.wasabisys.com/ cp ${WORKSPACE}/dist/cli-tools.x86_64.zip s3://marshians-files/
+	aws s3 --endpoint-url=https://s3.us-west-1.wasabisys.com/ cp ${WORKSPACE}/dist/cli-tools.armv7l.zip s3://marshians-files/
 
