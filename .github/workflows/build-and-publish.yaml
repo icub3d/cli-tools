@@ -26,6 +26,7 @@ jobs:
     - name: release
       uses: softprops/action-gh-release@v1
       with:
+        tag: latest
         files: |
           dist/cli-tools.x86_64.zip
           dist/cli-tools.armv7l.zip
