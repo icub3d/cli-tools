@@ -17,7 +17,7 @@ copy-go-tools:
 	cp ${HOME}/go/bin/* dist/cli-tools/x86_64
 
 rust-tools:
-	apt-get install -y gcc-arm-linux-gnueabihf
+	sudo apt-get install -y gcc-arm-linux-gnueabihf
 	echo '[target.armv7-unknown-linux-gnueabihf]\nlinker = "arm-linux-gnueabihf-gcc"' > /usr/share/rust/.cargo/config.toml
 	cargo install --root /tmp/x86_64 $(shell cat rust-binaries-base rust-binaries-dev)
 	cargo install --root /tmp/armv7l --target=armv7-unknown-linux-gnueabihf $(shell cat rust-binaries-base)
