@@ -37,3 +37,4 @@ spark:
 zip-files: spark
 	zip -j dist/cli-tools.x86_64.zip dist/cli-tools/x86_64/*
 	zip -j dist/cli-tools.armv7l.zip dist/cli-tools/armv7l/*
+	rm -rf dist/cli-tools
