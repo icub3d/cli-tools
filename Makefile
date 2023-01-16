@@ -1,9 +1,4 @@
-update:
-	apt-get update -y
-	apt-get upgrade -y
-	apt-get install -y zip smbclient libsecret-1-dev
-
-go-tools: update docker-credential-helpers
+go-tools: docker-credential-helpers
 	cat go-binaries-base | while read PACKAGE; do \
 		GOARCH=arm GOARM=7 go install $$PACKAGE ; \
 	done
@@ -13,47 +8,32 @@ go-tools: update docker-credential-helpers
 
 docker-credential-helpers:
 	git clone https://github.com/docker/docker-credential-helpers
-	cd docker-credential-helpers && make secretservice && cp bin/build/docker-credential-secretservice /go/bin/
+	cd docker-credential-helpers && make secretservice && cp bin/build/docker-credential-secretservice ${HOME}/go/bin/
 
 copy-go-tools:
-	mkdir -p ${WORKSPACE}/dist/cli-tools/x86_64 ${WORKSPACE}/dist/cli-tools/armv7l
-	cp /go/bin/linux_arm/* ${WORKSPACE}/dist/cli-tools/armv7l
-	rm -rf /go/bin/linux_arm
-	cp /go/bin/* ${WORKSPACE}/dist/cli-tools/x86_64
+	mkdir -p dist/cli-tools/x86_64 dist/cli-tools/armv7l
+	cp ${HOME}/go/bin/linux_arm/* dist/cli-tools/armv7l
+	rm -rf ${HOME}/go/bin/linux_arm
+	cp ${HOME}/go/bin/* dist/cli-tools/x86_64
 
-rust-tools: update
+rust-tools:
 	apt-get install -y gcc-arm-linux-gnueabihf
-	rustup target add armv7-unknown-linux-gnueabihf && \
-	mkdir -p /.cargo && \
-	echo '[target.armv7-unknown-linux-gnueabihf]\nlinker = "arm-linux-gnueabihf-gcc"' >/.cargo/config.toml
+	echo '[target.armv7-unknown-linux-gnueabihf]\nlinker = "arm-linux-gnueabihf-gcc"' > /usr/share/rust/.cargo/config.toml
 	cargo install --root /tmp/x86_64 $(shell cat rust-binaries-base rust-binaries-dev)
 	cargo install --root /tmp/armv7l --target=armv7-unknown-linux-gnueabihf $(shell cat rust-binaries-base)
 	
 copy-rust-tools:
-	mkdir -p ${WORKSPACE}/dist/cli-tools/x86_64 ${WORKSPACE}/dist/cli-tools/armv7l
-	cp /tmp/x86_64/bin/* ${WORKSPACE}/dist/cli-tools/x86_64
-	cp /tmp/armv7l/bin/* ${WORKSPACE}/dist/cli-tools/armv7l
+	mkdir -p dist/cli-tools/x86_64 dist/cli-tools/armv7l
+	cp /tmp/x86_64/bin/* dist/cli-tools/x86_64
+	cp /tmp/armv7l/bin/* dist/cli-tools/armv7l
 
 spark:
 	curl https://raw.githubusercontent.com/holman/spark/master/spark -o spark
 	chmod +x spark
-	cp spark ${WORKSPACE}/dist/cli-tools/x86_64/spark
-	cp spark ${WORKSPACE}/dist/cli-tools/armv7l/spark
+	cp spark dist/cli-tools/x86_64/spark
+	cp spark dist/cli-tools/armv7l/spark
 	rm spark
 
 zip-files: spark
-	zip -j ${WORKSPACE}/dist/cli-tools.x86_64.zip ${WORKSPACE}/dist/cli-tools/x86_64/*
-	zip -j ${WORKSPACE}/dist/cli-tools.armv7l.zip ${WORKSPACE}/dist/cli-tools/armv7l/*
-
-send-to-samba:
-	echo "username=${SAMBA_USERNAME}\npassword=${SAMBA_PASSWORD}\n" >/smbclient.conf
-	smbclient -A /smbclient.conf --directory files -c 'put dist/cli-tools.x86_64.zip cli-tools.x86_64.zip' //srv2/documents
-	smbclient -A /smbclient.conf --directory files -c 'put dist/cli-tools.armv7l.zip cli-tools.armv7l.zip' //srv2/documents
-
-send-to-wasabi:
-	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-	unzip awscliv2.zip
-	./aws/install
-	aws s3 --endpoint-url=https://s3.us-west-1.wasabisys.com/ cp ${WORKSPACE}/dist/cli-tools.x86_64.zip s3://marshians-files/
-	aws s3 --endpoint-url=https://s3.us-west-1.wasabisys.com/ cp ${WORKSPACE}/dist/cli-tools.armv7l.zip s3://marshians-files/
-
+	zip -j dist/cli-tools.x86_64.zip dist/cli-tools/x86_64/*
+	zip -j dist/cli-tools.armv7l.zip dist/cli-tools/armv7l/*

@@ -1,0 +1,30 @@
+name: build-and-publish 
+run-name: "build and publish"
+on:
+  push:
+  schedule:
+    - cron: '0 0 * * 6'
+jobs:
+  build-and-publish:
+    name: build-and-publish
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+    - name: setup-go
+      uses: actions/setup-go@v3
+      with:
+        go-version: '1.19.5'
+        check-latest: true
+    - run: make go-tools copy-go-tools
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        target: armv7-unknown-linux-gnueabihf
+    - run: make rust-tools copy-rust-tools
+    - name: release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          dist/cli-tools.x86_64.zip
+          dist/cli-tools.armv7l.zip
