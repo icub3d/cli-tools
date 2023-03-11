@@ -31,5 +31,5 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_S3_ENDPOINT: https://s3.us-west-1.wasabisys.com/
-        AWS_REGION: 'us-west-1'   # optional: defaults to us-east-1
-        SOURCE_DIR: 'dist'      # optional: defaults to entire 
+        AWS_REGION: 'us-west-1'
+        SOURCE_DIR: 'dist'
