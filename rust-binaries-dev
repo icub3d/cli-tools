@@ -1,8 +1,4 @@
-cargo-edit
-cargo-outdated
 cargo-tree
-cargo-update
-wasm-pack
 licensor
 trunk
 funzzy
