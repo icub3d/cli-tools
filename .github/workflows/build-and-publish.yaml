@@ -17,8 +17,8 @@ jobs:
         go-version: '1.19.5'
         check-latest: true
     - run: make go-tools copy-go-tools
-	- uses: actions-rust-lang/setup-rust-toolchain@v1
-	  with:
+    - uses: actions-rust-lang/setup-rust-toolchain@v1
+      with:
         target: armv7-unknown-linux-gnueabihf
     - run: make rust-tools copy-rust-tools
     - run: make zip-files
