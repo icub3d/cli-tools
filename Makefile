@@ -21,7 +21,6 @@ rust-tools:
 	sudo apt-get install -y gcc-arm-linux-gnueabihf
 	echo '[target.armv7-unknown-linux-gnueabihf]\nlinker = "arm-linux-gnueabihf-gcc"' > ${HOME}/.cargo/config.toml
 	cargo install --root /tmp/x86_64 $(shell cat rust-binaries-base rust-binaries-dev)
-	cargo install --root /tmp/x86_64 --git https://github.com/glotlabs/gdrive
 	cargo install --root /tmp/armv7l --target=armv7-unknown-linux-gnueabihf $(shell cat rust-binaries-base)
 
 copy-rust-tools:
