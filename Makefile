@@ -37,5 +37,7 @@ spark:
 
 zip-files: spark
 	zip -j dist/cli-tools.x86_64.zip dist/cli-tools/x86_64/*
+	sha512sum dist/cli-tools.x86_64.zip > dist/cli-tools.x86_64.zip.sha512
 	zip -j dist/cli-tools.armv7l.zip dist/cli-tools/armv7l/*
+	sha512sum dist/cli-tools.armv7l.zip > dist/cli-tools.armv7l.zip.sha512
 	rm -rf dist/cli-tools
