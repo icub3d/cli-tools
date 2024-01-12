@@ -1,5 +1,3 @@
-github.com/go-delve/delve/cmd/dlv@latest
-golang.org/x/tools/gopls@latest
 github.com/nsf/gocode@latest
 github.com/rogpeppe/godef@latest
 golang.org/x/tools/cmd/godoc@latest
